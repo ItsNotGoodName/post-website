@@ -1,24 +1,19 @@
-var fs = require('fs');
-var http = require('http');
-var https = require('https');
-var privateKey  = fs.readFileSync('cert_key/key.pem', 'utf8');
-var certificate = fs.readFileSync('cert_key/cert.pem', 'utf8');
-var httpPort = 8080
-var httpsPort = 8443;
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+const privateKey  = fs.readFileSync('cert_key/key.pem', 'utf8');
+const certificate = fs.readFileSync('cert_key/cert.pem', 'utf8');
+require('dotenv').config()
 
-var credentials = {key: privateKey, cert: certificate};
-var express = require('express');
-var app = express();
+const httpPort = process.env.HTTPPORT || 8080
+const httpsPort = process.env.HTTPSPORT || 8443;
 
-var requests_made = 0
+const credentials = {key: privateKey, cert: certificate};
 
-app.get('/', (req, res)=> {
-    requests_made+=1
-    res.send("<p>Hello</p><p>Requests Made: " + requests_made + "</p>");
-})
+const app = require('./src');
 
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(httpPort, ()=>{
 	console.log("HTTP server running on port: " + httpPort);
