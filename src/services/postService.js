@@ -1,12 +1,15 @@
-class PostService{
+class PostService {
     constructor() {
         this.posts = []
     }
-    addPost(title, body){
-        this.posts.push({title: title, body: body});
+    addPost(title, body) {
+        this.posts.push({
+            title: title,
+            body: body
+        });
     }
 
-    getPosts(){
+    getPosts() {
         return this.posts;
     }
 }

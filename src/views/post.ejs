@@ -1,22 +1,29 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <% include ./partials/head %>
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <% include ./partials/nav %>
-    <form action="/post" method="POST">
+
+<head>
+  <% include ./partials/head %>
+  <title>Hello, world!</title>
+</head>
+
+<body>
+  <% include ./partials/nav %>
+  <div class="card mx-auto" style="width: 18rem;">
+    <div class="card-body">
+      <form action="/post" method="POST">
         <div class="form-group">
-            <label for="title">Title</label>
-            <input name="title" type="text" class="form-control" placeholder="Enter title">
+          <label for="title">Title</label>
+          <input name="title" type="text" class="form-control" placeholder="Enter title">
         </div>
         <div class="form-group">
-            <label for="body">Body</label>
-            <textarea name="body" class="form-control" placeholder="Body" rows="3"></textarea>
+          <label for="body">Body</label>
+          <textarea name="body" class="form-control" placeholder="Body" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-primary mb-2">Submit Post</button>
-    </form>
-    <% include ./partials/footer %>
-  </body>
+      </form>
+    </div>
+  </div>
+  <% include ./partials/footer %>
+</body>
+
 </html>

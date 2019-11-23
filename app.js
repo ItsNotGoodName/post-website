@@ -12,18 +12,21 @@ const app = require('./src');
 
 const httpServer = http.createServer(app);
 
-httpServer.listen(httpPort, ()=>{
+httpServer.listen(httpPort, () => {
 	console.log("HTTP server running on port: " + httpPort);
 });
 
 if (fs.existsSync(cert_key_path)) {
-	const privateKey  = fs.readFileSync('cert_key/key.pem', 'utf8');
+	const privateKey = fs.readFileSync('cert_key/key.pem', 'utf8');
 	const certificate = fs.readFileSync('cert_key/cert.pem', 'utf8');
 
-	const credentials = {key: privateKey, cert: certificate};
+	const credentials = {
+		key: privateKey,
+		cert: certificate
+	};
 	const httpsServer = https.createServer(credentials, app);
 
-	httpsServer.listen(httpsPort, ()=>{
+	httpsServer.listen(httpsPort, () => {
 		console.log("HTTPS server running on port: " + httpsPort);
 	});
 }

@@ -1,14 +1,14 @@
-class CounterService{
+class CounterService {
     constructor() {
         this.counter = 0;
     }
 
-    getCounter(){
+    getCounter() {
         return this.counter;
     }
 
-    incrementCounter(){
-        this.counter+=1;
+    incrementCounter() {
+        this.counter += 1;
     }
 }
 
