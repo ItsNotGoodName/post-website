@@ -7,14 +7,22 @@
   <body>
     <% include ./partials/nav %>
 
-    <div class="card mx-auto" style="width: 12rem;">
-        <div class="card-body">
-            <p class="card-text">
-                Requests made: <%-requests_made%>
-            </p>
-                <a href="/" class="btn btn-primary">Refresh</a>
-        </div>
-    </div>
+    <div class="row">
+        <% for(var i=0; i<posts.length; i++ ) { %>
+                <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body p-100">
+                        <h5 class="card-title"><%= posts[i].title %></h5>
+        
+                        <p class="card-text">
+                            <%= posts[i].body %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+         <% } %>
+
+</div>
     <% include ./partials/footer %>
   </body>
 </html>
