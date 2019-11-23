@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <% include ./partials/head %>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <% include ./partials/nav %>
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>
-        <%-title%>
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-
-<body>
-    <%-requests_made%>
-    <div id="root"></div>
-</body>
-
+    <div class="card mx-auto" style="width: 12rem;">
+        <div class="card-body">
+            <p class="card-text">
+                Requests made: <%-requests_made%>
+            </p>
+                <a href="/" class="btn btn-primary">Refresh</a>
+        </div>
+    </div>
+    <% include ./partials/footer %>
+  </body>
 </html>

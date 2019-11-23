@@ -1,10 +1,10 @@
 const router = require('express').Router();
+const counterService = require('../services').counterService
 
-requests_made = 0
 
 router.get('/', (req, res)=> {
-    requests_made+=1
-    res.render('index', { title: 'Web App', requests_made: requests_made });
+    counterService.incrementCounter();
+    res.render('index', { title: 'Web App', requests_made: counterService.getCounter() });
 })
 
 module.exports = router;
