@@ -37,9 +37,11 @@ if(process.env.ENVIROMENT=='production'){
 
 // Controllers
 const {
-    homeController
+    homeController,
+    postController
 } = require('./controllers');
 
 app.use('/', homeController);
+app.use('/post', postController);
 
 module.exports = app

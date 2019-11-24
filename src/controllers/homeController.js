@@ -9,19 +9,4 @@ router.get('/', async (req, res) => {
     });
 })
 
-router.get('/post', async (req, res) => {
-    res.render('post');
-})
-
-router.post('/post', async (req, res) => {
-    title = req.body.title;
-    body = req.body.body;
-    if (title == undefined || title == '' || body == undefined || body == '') {
-        res.redirect('/post');
-        return;
-    }
-    await postService.addPost(title, body)
-    res.redirect('/');
-})
-
 module.exports = router;
