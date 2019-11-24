@@ -16,6 +16,17 @@ app.use(express.urlencoded({
     extended: true
 }));
 
+// Redirect to HTTPS if in production
+if(process.env.ENVIROMENT=='production'){
+    function requireHTTPS(req, res, next) {
+        if (!req.secure) {
+            return res.redirect('https://' + req.get('host') + req.url);
+        }
+        next();
+    }
+    app.use(requireHTTPS);
+}
+
 // Controllers
 const {
     homeController
