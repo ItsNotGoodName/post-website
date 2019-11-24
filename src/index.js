@@ -25,7 +25,7 @@ if(process.env.ENVIROMENT=='production'){
         next();
     }
     app.use(requireHTTPS);
-
+    // Log to access.log
     const accessLogStream = fs.createWriteStream(path.join(__dirname, '../access.log'), { flags: 'a' });
     app.use(morgan('combined', {stream: accessLogStream}))
 }else{
