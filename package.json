@@ -1,13 +1,12 @@
 {
-  "name": "https-test",
+  "name": "post-website",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "dev": "gulp",
-    "sync": "browser-sync start --proxy 127.0.0.1:9898 --files ./src/views/*.ejs --files ./src/views/partials/*.ejs"
+    "dev": "gulp"
   },
   "author": "",
   "license": "ISC",
