@@ -3,3 +3,4 @@ cert_key
 *.pem
 *.tar
 *.env
+*.log
