@@ -2,27 +2,25 @@ const router = require('express').Router();
 const services = require('../services')
 const postService = services.postService
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+    posts = await postService.getPosts();
     res.render('index', {
-        posts: postService.getPosts()
+        posts: posts
     });
 })
 
-router.get('/post', (req, res) => {
-    res.render('post', {
-        posts: postService.getPosts()
-    });
+router.get('/post', async (req, res) => {
+    res.render('post');
 })
 
-router.post('/post', (req, res) => {
-    console.log(req.body)
+router.post('/post', async (req, res) => {
     title = req.body.title;
     body = req.body.body;
     if (title == undefined || title == '' || body == undefined || body == '') {
         res.redirect('/post');
         return;
     }
-    postService.addPost(title, body)
+    await postService.addPost(title, body)
     res.redirect('/');
 })
 

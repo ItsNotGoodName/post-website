@@ -1,5 +1,5 @@
 const fs = require('fs');
-// const models = require('../models');
+const models = require('../models');
 
 fs
     .readdirSync(__dirname)
@@ -8,5 +8,5 @@ fs
     })
     .forEach((file) => {
         let service = require('./' + file);
-        module.exports[file.substr(0, file.length - 3)] = new service();
+        module.exports[file.substr(0, file.length - 3)] = new service(models);
     });
