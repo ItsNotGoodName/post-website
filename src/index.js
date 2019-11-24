@@ -9,6 +9,9 @@ const cors = require('cors');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Disable
+app.disable('x-powered-by');
+
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
