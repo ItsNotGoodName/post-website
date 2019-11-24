@@ -14,9 +14,12 @@
     <div class="col-md-3">
       <div class="card">
         <div class="card-body p-100">
-          <h5 class="card-title">
+          <h4 class="card-title">
             <%= posts[i].title %>
-          </h5>
+          </h4>
+          <span>
+            <%= posts[i].date.toLocaleDateString("en-US") %>
+          </span>
           <p class="card-text">
             <%= posts[i].body %>
           </p>
