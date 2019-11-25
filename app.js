@@ -7,7 +7,15 @@ require('dotenv').config()
 mongoose.connect('mongodb://' + process.env.MONGO_URL + '/' + process.env.MONGO_DB, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
-}).catch(error => handleError(error));
+}).then(
+	resolve =>{
+		console.log()
+		console.log("DB connected");
+	},
+	reject => {
+		console.log("Can't connect to DB");
+	}
+)
 
 const db = mongoose.connection;
 
