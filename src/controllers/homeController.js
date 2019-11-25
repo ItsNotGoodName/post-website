@@ -7,6 +7,10 @@ router.get('/', async (req, res) => {
     res.render('index', {
         posts: posts
     });
-})
+});
+
+router.get('/register', (req,res) =>{
+    res.render('register');
+});
 
 module.exports = router;
