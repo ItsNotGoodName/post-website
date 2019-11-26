@@ -12,8 +12,7 @@ gulp.task('browser-sync', function() {
 gulp.task('start', function (done) {
   nodemon({
     script: 'app.js'
-  , ext: 'js'
-  , env: { 'NODE_ENV': 'development' }
+  , ext: 'js ejs env'
   , done: done
   })
 })
