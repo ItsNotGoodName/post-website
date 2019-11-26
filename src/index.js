@@ -33,17 +33,10 @@ app.use(express.urlencoded({
 }));
 
 if(process.env.NODE_ENV === 'production'){
-    // Redirect to HTTPS if in production
-    function requireHTTPS(req, res, next) {
-        if (!req.secure) {
-            return res.redirect('https://' + req.get('host') + req.url);
-        }
-        next();
-    }
-    app.use(requireHTTPS);
+     // Redirect to HTTPS if in production
+    app.use(require('./middleware/requireHTTPS'));
     // Log to access.log
-    const accessLogStream = fs.createWriteStream(path.join(__dirname, '../access.log'), { flags: 'a' });
-    app.use(morgan('combined', {stream: accessLogStream}))
+    app.use(morgan('combined', {stream: fs.createWriteStream(path.join(__dirname, '../access.log'), { flags: 'a' })}));
 }else{
     app.use(morgan('dev'));
 }

@@ -2,7 +2,6 @@ const router = require('express').Router();
 const passport = require('passport');
 const services = require('../services')
 const userService = services.userService;
-const bcrypt = require('bcrypt')
 
 router.get('/register', (req, res) => {
     res.render('register');
