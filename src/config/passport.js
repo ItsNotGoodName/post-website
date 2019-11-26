@@ -1,7 +1,10 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const {
+    userService
+} = require('../services')
 
 module.exports = () => {
     passport.use(
@@ -20,7 +23,7 @@ module.exports = () => {
                         message: "Incorrect username."
                     });
                 }
-                bcrypt.compare(passport, user.password, (err, isMatch) => {
+                bcrypt.compare(password, user.password, (err, isMatch) => {
                     if (err) throw err;
                     if (isMatch) {
                         return done(null, user);
@@ -35,3 +38,15 @@ module.exports = () => {
         })
     );
 }
+
+passport.serializeUser(function (user, cb) {
+    cb(null, user.username);
+})
+
+passport.deserializeUser(function (username, cb) {
+    console.log(username);
+    userService.findUser(username).then((user) => {
+        console.log(user);
+        cb(null, user);
+    })
+})

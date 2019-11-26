@@ -1,23 +1,46 @@
 const router = require('express').Router();
 const passport = require('passport');
 const services = require('../services')
+const userService = services.userService;
 const bcrypt = require('bcrypt')
 
-router.get('/register', (req,res) =>{
+router.get('/register', (req, res) => {
     res.render('register');
 });
 
-router.post('/register', async (req,res)=>{
+router.post('/register', async (req, res) => {
+    const {
+        username,
+        password
+    } = req.body;
+
+    if (username == "" || username == undefined || password == "" || password == undefined) {
+        res.redirect('/user/register');
+        return;
+    }
+
+    if (!await userService.addUser(username, password)) {
+        res.redirect('/user/register');
+        return;
+    }
+
+    res.redirect('/user/login');
 });
 
-router.get('/login', (req,res)=>{
+router.get('/login', (req, res) => {
+    res.render('login');
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login',
     passport.authenticate('local', {
         successRedirect: "/",
-        failureRedirect : "/user/login"
-    })(req, res, next)
+        failureRedirect: "/user/login"
+    })
+);
+
+router.get('/logout', (req, res)=>{
+    req.logout();
+    res.redirect('/');
 });
 
 module.exports = router;
