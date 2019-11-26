@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
         res.redirect('/post');
         return;
     }
-    await postService.addPost(title, body)
+    await postService.addPost(title, body, req.user)
     res.redirect('/');
 })
 

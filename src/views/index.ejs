@@ -20,6 +20,9 @@
           <span>
             <%= posts[i].date.toLocaleDateString("en-US") %>
           </span>
+          <span>
+            <%= posts[i].postedBy.username %>
+          </span>
           <p class="card-text">
             <%= posts[i].body %>
           </p>
