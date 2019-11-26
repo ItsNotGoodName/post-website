@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const services = require('../services')
+const authenticated = require('../middleware/authenticated');
 const postService = services.postService
+
+router.use(authenticated)
 
 router.get('/', async (req, res) => {
     res.render('post');
