@@ -9,7 +9,6 @@ mongoose.connect('mongodb://' + process.env.MONGO_URL + '/' + process.env.MONGO_
 	useUnifiedTopology: true
 }).then(
 	resolve =>{
-		console.log()
 		console.log("DB connected");
 	},
 	reject => {
