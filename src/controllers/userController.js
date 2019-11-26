@@ -1,6 +1,14 @@
 const router = require('express').Router();
 const passport = require('passport');
 const { userService } = require('../services');
+const {blockAuthenticated} = require('../middleware/authentication');
+
+router.get('/logout', (req, res)=>{
+    req.logout();
+    res.redirect('/');
+});
+
+router.use(blockAuthenticated);
 
 router.get('/register', (req, res) => {
     res.render('register');
@@ -35,10 +43,5 @@ router.post('/login',
         failureRedirect: "/user/login"
     })
 );
-
-router.get('/logout', (req, res)=>{
-    req.logout();
-    res.redirect('/');
-});
 
 module.exports = router;
