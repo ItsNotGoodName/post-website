@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const services = require('../services')
-const postService = services.postService
+const { postService } = require('../services');
 const bcrypt = require('bcrypt')
 
 router.get('/', async (req, res) => {

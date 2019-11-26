@@ -4,7 +4,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const {
     userService
-} = require('../services')
+} = require('../services');
 
 module.exports = () => {
     passport.use(
@@ -44,9 +44,7 @@ passport.serializeUser(function (user, cb) {
 })
 
 passport.deserializeUser(function (username, cb) {
-    console.log(username);
     userService.findUser(username).then((user) => {
-        console.log(user);
         cb(null, user);
     })
 })
