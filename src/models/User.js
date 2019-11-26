@@ -6,7 +6,10 @@ const userSchema = mongoose.Schema({
         required: true,
         type: String
     },
-    password: String,
+    password: {
+        required: true,
+        type: String
+    },
     date: {
         type: Date,
         default: () => Date.now()
