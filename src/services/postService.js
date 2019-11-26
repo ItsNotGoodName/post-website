@@ -14,7 +14,7 @@ class PostService {
         await post.save();
     }
     async getPosts() {
-        const posts = await this.models.Post.find({}).populate('postedBy','username').exec();
+        const posts = await this.models.Post.find({}).sort('-date').populate('postedBy','username').exec();
         return posts;
     }
 }
