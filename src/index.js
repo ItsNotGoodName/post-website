@@ -31,6 +31,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({
     extended: false
 }));
+app.use(require('./middleware/copyUser'));
 
 if(process.env.NODE_ENV === 'production'){
      // Redirect to HTTPS if in production
