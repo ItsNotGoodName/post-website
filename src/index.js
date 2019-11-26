@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const mongoConnection = require('./config/db').connection
 require('./config/passport')();
 
 const app = express();
@@ -23,7 +24,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET || "secret",
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ url: 'mongodb://' + process.env.MONGO_URL + '/' + process.env.MONGO_DB })
+    store: new MongoStore( { mongooseConnection: mongoConnection })
 }));
 app.use(passport.initialize());
 app.use(passport.session());

@@ -4,19 +4,7 @@ const https = require('https');
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-mongoose.connect('mongodb://' + process.env.MONGO_URL + '/' + process.env.MONGO_DB, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-}).then(
-	resolve =>{
-		console.log("DB connected");
-	},
-	reject => {
-		console.log("Can't connect to DB");
-	}
-)
-
-const db = mongoose.connection;
+const db = require('./src/config/db').connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 
