@@ -39,8 +39,8 @@ app.use(express.urlencoded({
 app.use(require('./middleware/copyUser'));
 
 if(process.env.NODE_ENV === 'production'){
-     // Redirect to HTTPS if in production
-    app.use(require('./middleware/requireHTTPS'));
+    // Redirect to HTTPS if in production
+    // app.use(require('./middleware/requireHTTPS'));
     // Log to access.log
     app.use(morgan('combined', {stream: fs.createWriteStream(path.join(__dirname, '../access.log'), { flags: 'a' })}));
 }else{
