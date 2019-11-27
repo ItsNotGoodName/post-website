@@ -8,11 +8,13 @@ const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoConnection = require('./config/db').connection
+const expressLayouts = require('express-ejs-layouts');
 require('./config/passport')();
 
 const app = express();
 
 // Views
+app.use(expressLayouts);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
