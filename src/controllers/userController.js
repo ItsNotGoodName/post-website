@@ -7,9 +7,12 @@ const {
     blockAuthenticated
 } = require('../middleware/authentication');
 const {
-    check,
+    loginValidator,
+    registerValidator
+} = require('../middleware/validator');
+const {
     validationResult
-} = require('express-validator');
+} = require('express-validator')
 
 router.get('/logout', (req, res) => {
     req.logout();
@@ -22,20 +25,12 @@ router.get('/register', (req, res) => {
     res.render('register');
 });
 
-router.post('/register', [
-        check('username')
-        .not()
-        .isEmpty()
-        .withMessage('Username is required'),
-        check('password')
-        .not()
-        .isEmpty()
-        .withMessage('Password is required')
-    ],
+router.post('/register',registerValidator,
     async (req, res) => {
         let errors = validationResult(req).array();
+
         if (errors.length > 0) {
-            res.redirect('/no');
+            res.redirect('/user/register');
             return;
         }
 
@@ -43,11 +38,6 @@ router.post('/register', [
             username,
             password
         } = req.body;
-
-        if (username == "" || username == undefined || password == "" || password == undefined) {
-            res.redirect('/user/register');
-            return;
-        }
 
         if (!await userService.addUser(username, password)) {
             res.redirect('/user/register');
@@ -62,20 +52,10 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login',
-    [
-        check('username')
-        .not()
-        .isEmpty()
-        .withMessage('Username is required'),
-        check('password')
-        .not()
-        .isEmpty()
-        .withMessage('Password is required')
-    ],
+    loginValidator,
     async (req, res, next) => {
             let errors = validationResult(req).array();
             if (errors.length > 0) {
-                console.log(errors);
                 res.redirect('/no');
                 return;
             }
@@ -84,7 +64,6 @@ router.post('/login',
         passport.authenticate('local', {
             successRedirect: "/",
             failureRedirect: "/user/login"
-        })
-);
+        }));
 
 module.exports = router;
