@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const services = require('../services')
 const { forwardAuthenticated }= require('../middleware/authentication');
-const postService = services.postService
+const { postService } = require('../services');
+const { sanitizeBody, body } = require('express-validator');
 
 router.use(forwardAuthenticated);
 
