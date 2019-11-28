@@ -5,7 +5,7 @@ require('dotenv').config()
 
 gulp.task('browser-sync', function () {
   browserSync.init({
-    proxy: "127.0.0.1:" + process.env.HTTPPORT || 8080,
+    proxy: "127.0.0.1:" + process.env.PORT || 8080,
   });
   gulp.watch("src/views/**/*.ejs").on('change', browserSync.reload);
 
