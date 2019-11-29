@@ -14,12 +14,23 @@ const postSchema = mongoose.Schema({
         type: Date,
         default: () => Date.now()
     },
+    vote: {
+        type: Number,
+        default: 0
+    },
+    upvoters: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    downvoters: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     postedBy: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
-
 })
 
 module.exports = mongoose.model('Post', postSchema);

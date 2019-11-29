@@ -17,6 +17,17 @@ class PostService {
         const posts = await this.models.Post.find({}).sort('-date').populate('postedBy','username').exec();
         return posts;
     }
+
+    async votePost(post, user, value){
+        await post.updateOne({vote: post.vote + value})
+    } 
+
+    async getPostById(id){
+        if(!await mongoose.Types.ObjectId.isValid(id)){
+            return false;
+        }
+        return await this.models.Post.findById(id);
+    }
 }
 
 module.exports = PostService;
