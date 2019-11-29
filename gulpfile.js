@@ -1,22 +1,30 @@
-const gulp = require('gulp');
-const browserSync = require('browser-sync').create();
-const nodemon = require('gulp-nodemon')
+const gulp = require("gulp");
+const browserSync = require("browser-sync");
+const nodemon = require("gulp-nodemon");
 require('dotenv').config()
+//https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e
+gulp.task("nodemon", cb => {
+  let started = false;
 
-gulp.task('browser-sync', function () {
-  browserSync.init({
-    proxy: "127.0.0.1:" + process.env.PORT || 8080,
+  return nodemon({
+    script: "app.js"
+  }).on("start", () => {
+    if (!started) {
+      cb();
+      started = true;
+    }
   });
-  gulp.watch("src/views/**/*.ejs").on('change', browserSync.reload);
-
 });
 
-gulp.task('start', function (done) {
-  nodemon({
-    script: 'app.js',
-    ext: 'js ejs env',
-    done: done
+gulp.task(
+  "browser-sync",
+  gulp.series("nodemon", () => {
+    browserSync.init(null, {
+      proxy: "127.0.0.1:" + process.env.PORT || 8080,
+      files: ["src/views/**/*.ejs"],
+      port: 3000
+    });
   })
-})
+);
 
-gulp.task('default', gulp.parallel('browser-sync', 'start'));
+gulp.task("default", gulp.series("browser-sync", () => {}));
