@@ -13,19 +13,37 @@
       <div class="card-footer">
         <div class="row">
           <div class="col">
-            <small class="text-muted">
-              <%= posts[i].vote %>
-            </small>
+
+            <div class="row">
+              <form action="/post/vote" method="POST">
+                <input hidden name="id" value="<%= posts[i]._id %>"></input>
+                <button name="vote" value="upvote" type="submit">U</button>
+              </form>
+
+              <small class="text-muted">
+                <%= posts[i].vote %>
+              </small>
+
+              <form action="/post/vote" method="POST">
+                <input hidden name="id" value="<%= posts[i]._id %>"></input>
+                <button name="vote" value="downvote" type="submit">D</button>
+              </form>
+            </div>
+
           </div>
           <div class="col">
+
             <small class="text-muted">
               <%= posts[i].date.toLocaleDateString("en-US") %>
             </small>
+
           </div>
           <div class="col text-right">
+
             <small class="text-muted">
               <%= posts[i].postedBy.username %>
             </small>
+
           </div>
         </div>
       </div>
