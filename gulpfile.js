@@ -20,9 +20,10 @@ gulp.task(
   "browser-sync",
   gulp.series("nodemon", () => {
     browserSync.init(null, {
-      proxy: "127.0.0.1:" + process.env.PORT || 8080,
+      proxy: "http://localhost:" + (typeof process.env.PORT == 'undefined' ?  8080 : process.env.PORT),
       files: ["src/views/**/*.ejs"],
-      port: 3000
+      notify: false,
+      open: false
     });
   })
 );
