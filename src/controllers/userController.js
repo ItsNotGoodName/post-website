@@ -4,7 +4,8 @@ const {
     userService
 } = require('../services');
 const {
-    blockAuthenticated
+    blockAuthenticated,
+    forwardAuthenticated
 } = require('../middleware/authentication');
 const {
     loginValidator,
@@ -19,13 +20,17 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
+router.get('/profile', forwardAuthenticated, (req, res) => {
+    res.render('profile');
+});
+
 router.use(blockAuthenticated);
 
 router.get('/register', (req, res) => {
     res.render('register');
 });
 
-router.post('/register',registerValidator,
+router.post('/register', registerValidator,
     async (req, res) => {
         let errors = validationResult(req).array();
 
