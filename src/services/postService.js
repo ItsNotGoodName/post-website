@@ -19,7 +19,9 @@ class PostService {
     }
 
     async votePost(post, user, value){
-        await post.updateOne({vote: post.vote + value})
+        // TODO: Change updateOne to an increment function if mongodb has one
+        await post.updateOne({vote: post.vote + value});
+        await user.updateOne({vote: user.vote + value});
     } 
 
     async getPostById(id){

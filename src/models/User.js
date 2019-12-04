@@ -13,6 +13,10 @@ const userSchema = mongoose.Schema({
     date: {
         type: Date,
         default: () => Date.now()
+    },
+    vote: {
+        type: Number,
+        default: 0
     }
 })
 
