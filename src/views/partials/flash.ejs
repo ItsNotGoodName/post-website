@@ -1,17 +1,14 @@
-        <% if(typeof messages.errors != 'undefined'){ %>
-        <% for(let i = 0; i < messages.errors.length; i++) { %>
+<% if(typeof messages.errors != 'undefined'){ %>
+    <% for(let i = 0; i < messages.errors.length; i++) { %>
         <div class="alert alert-danger">
             <%= messages.errors[i] %>
         </div>
-        <% } %>
-        <% } %>
-        <% if(typeof messages.info != 'undefined'){ %>
-        <% for(let i = 0; i < messages.info.length; i++) { %>
+    <% } %>
+<% } %>
+<% if(typeof messages.info != 'undefined'){ %>
+    <% for(let i = 0; i < messages.info.length; i++) { %>
         <div class="alert alert-info">
             <%= messages.info[i] %>
         </div>
-        <% } %>
-        <% } %>
-        <% if(typeof message != 'undefined'){ %>
-            <%= message %>
-        <% } %>
+    <% } %>
+<% } %>
