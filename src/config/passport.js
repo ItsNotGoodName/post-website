@@ -9,8 +9,9 @@ const {
 module.exports = () => {
     passport.use(
         new LocalStrategy({
-            usernameField: "username"
-        }, (username, password, done) => {
+            usernameField: "username",
+            passReqToCallback: true
+        }, (req, username, password, done) => {
             User.findOne({
                 username: username
             }, (err, user) => {
@@ -19,18 +20,15 @@ module.exports = () => {
                 }
 
                 if (!user) {
-                    return done(null, false, {
-                        message: "Incorrect username."
-                    });
+                    return done(null, false, req.flash('errors', ['Username does not exists']));
                 }
                 bcrypt.compare(password, user.password, (err, isMatch) => {
                     if (err) throw err;
                     if (isMatch) {
                         return done(null, user);
                     } else {
-                        done(null, false, {
-                            message: 'Password incorrect'
-                        });
+                        done(null, false, req.flash('errors', ['Password incorrect'])
+                        );
                     }
                 })
             })

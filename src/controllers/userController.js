@@ -12,9 +12,6 @@ const {
     registerValidator,
     checkErrors
 } = require('../middleware/validator');
-const {
-    validationResult
-} = require('express-validator')
 
 router.get('/logout', (req, res) => {
     req.logout();
@@ -39,7 +36,7 @@ router.post('/register', registerValidator, checkErrors('/user/register'),
         } = req.body;
 
         if (!await userService.addUser(username, password)) {
-            req.flash('errors', ['Username taken']);
+            req.flash('errors', 'Username taken');
             res.redirect('/user/register');
             return;
         }
@@ -56,8 +53,7 @@ router.post('/login',
     checkErrors('/user/login'),
     passport.authenticate('local', {
         successRedirect: "/",
-        failureRedirect: "/user/login",
-        failureFlash: true
+        failureRedirect: "/user/login"
     }));
 
 module.exports = router;
