@@ -7,7 +7,8 @@ gulp.task("nodemon", cb => {
   let started = false;
 
   return nodemon({
-    script: "app.js"
+    script: "app.js",
+    legacyWatch: true
   }).on("start", () => {
     if (!started) {
       cb();
