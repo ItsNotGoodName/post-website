@@ -6,10 +6,11 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
+const flash = require('express-flash');
 const MongoStore = require('connect-mongo')(session);
 const mongoConnection = require('./config/db').connection
 const expressLayouts = require('express-ejs-layouts');
-require('./config/passport')();
+require('./config/passport')();express-flash
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore( { mongooseConnection: mongoConnection })
 }));
+app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));

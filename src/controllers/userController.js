@@ -9,7 +9,8 @@ const {
 } = require('../middleware/authentication');
 const {
     loginValidator,
-    registerValidator
+    registerValidator,
+    checkErrors
 } = require('../middleware/validator');
 const {
     validationResult
@@ -30,25 +31,19 @@ router.get('/register', (req, res) => {
     res.render('register');
 });
 
-router.post('/register', registerValidator,
+router.post('/register', registerValidator, checkErrors('/user/register'),
     async (req, res) => {
-        let errors = validationResult(req).array();
-
-        if (errors.length > 0) {
-            res.redirect('/user/register');
-            return;
-        }
-
         const {
             username,
             password
         } = req.body;
 
         if (!await userService.addUser(username, password)) {
+            req.flash('errors', ['Username taken']);
             res.redirect('/user/register');
             return;
         }
-
+        req.flash('info', ['Success, login']);
         res.redirect('/user/login');
     });
 
@@ -58,17 +53,11 @@ router.get('/login', (req, res) => {
 
 router.post('/login',
     loginValidator,
-    async (req, res, next) => {
-            let errors = validationResult(req).array();
-            if (errors.length > 0) {
-                res.redirect('/no');
-                return;
-            }
-            next();
-        },
-        passport.authenticate('local', {
-            successRedirect: "/",
-            failureRedirect: "/user/login"
-        }));
+    checkErrors('/user/login'),
+    passport.authenticate('local', {
+        successRedirect: "/",
+        failureRedirect: "/user/login",
+        failureFlash: true
+    }));
 
 module.exports = router;
