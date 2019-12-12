@@ -40,7 +40,7 @@ router.post('/register', registerValidator, checkErrors('/user/register'),
             res.redirect('/user/register');
             return;
         }
-        req.flash('info', ['Success, login']);
+        req.flash('info', ['Registration Successful, Login']);
         res.redirect('/user/login');
     });
 
