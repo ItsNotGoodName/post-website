@@ -1,9 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-const mongoose = require('mongoose')
 require('dotenv').config()
-
 const db = require('./src/config/db').connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));

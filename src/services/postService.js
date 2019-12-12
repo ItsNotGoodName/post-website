@@ -20,6 +20,7 @@ class PostService {
 
     async votePost(post, user, value){
         await post.updateOne({$inc: {vote: value}});
+        await this.models.User.findOneAndUpdate({_id : post.postedBy}, {$inc : {vote: value}});
     } 
 
     async getPostById(id){
