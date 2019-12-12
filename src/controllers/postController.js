@@ -42,7 +42,7 @@ router.post('/vote', async (req, res) => {
         await postService.votePost(post, user, -1)
     }
 
-    res.redirect('/');
+    res.redirect('/'+"#"+id);
 });
 
 module.exports = router;
