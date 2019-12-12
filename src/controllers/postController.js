@@ -6,20 +6,23 @@ const {
     postService
 } = require('../services');
 
+const {
+    postValidator,
+    checkErrors
+} = require('../middleware/validator');
 router.use(forwardAuthenticated);
 
 router.get('/', async (req, res) => {
     res.render('post');
 });
 
-router.post('/', async (req, res) => {
-    title = req.body.title;
-    body = req.body.body;
-    if (title == undefined || title == '' || body == undefined || body == '') {
-        res.redirect('/post');
-        return;
-    }
-    await postService.addPost(title, body, req.user)
+router.post('/', postValidator, checkErrors('/post'), async (req, res) => {
+    const {
+        title,
+        body
+    } = req.body;
+
+    await postService.addPost(title, body, req.user);
     res.redirect('/');
 });
 
@@ -42,7 +45,7 @@ router.post('/vote', async (req, res) => {
         await postService.votePost(post, user, -1)
     }
 
-    res.redirect('/'+"#"+id);
+    res.redirect('/' + "#" + id);
 });
 
 module.exports = router;

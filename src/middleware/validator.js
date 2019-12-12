@@ -30,6 +30,19 @@ const registerValidator = [
     .withMessage('Password is required')
 ]
 
+const postValidator = [
+    check('title')
+    .not()
+    .isEmpty()
+    .withMessage('Title is required'),
+    check('body')
+    .not()
+    .isEmpty()
+    .withMessage('Body is required')
+]
+/*
+    Checks validator errors and then redirects to a url while passing the errors to it.
+*/
 const checkErrors = (redirect) => {
     return (req, res, next) => {
         let errors = validationResult(req).array();
@@ -45,5 +58,6 @@ const checkErrors = (redirect) => {
 module.exports = {
     loginValidator,
     registerValidator,
+    postValidator,
     checkErrors,
 }
