@@ -22,7 +22,7 @@ gulp.task(
   gulp.series("nodemon", () => {
     browserSync.init(null, {
       proxy: "http://localhost:" + (typeof process.env.PORT == 'undefined' ?  8080 : process.env.PORT),
-      files: ["src/views/**/*.ejs"],
+      files: ["src/views/**/*.ejs", "src/public/**/*"],
       notify: false,
       open: false
     });

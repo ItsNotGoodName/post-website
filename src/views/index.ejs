@@ -11,14 +11,16 @@
             <%= posts[i].body %>
           </p>
         </div>
-        <div class="card-footer">
+        <div class="card-footer" style="font-size: 18px">
           <div class="row">
             <div class="col">
 
               <div class="row">
                 <form action="/post/vote" method="POST">
                   <input hidden name="id" value="<%= posts[i]._id %>"></input>
-                  <button name="vote" value="upvote" type="submit">U</button>
+                  <button name="vote" value="upvote" type="submit">
+                    <img width="20px" height="30px" src="/svg/uparrow.svg">
+                  </button>
                 </form>
 
                 <small class="text-muted">
@@ -27,7 +29,9 @@
 
                 <form action="/post/vote" method="POST">
                   <input hidden name="id" value="<%= posts[i]._id %>"></input>
-                  <button name="vote" value="downvote" type="submit">D</button>
+                  <button name="vote" value="downvote" type="submit">
+                    <img width="20px" height="30px" src="/svg/downarrow.svg">
+                  </button>
                 </form>
               </div>
 
