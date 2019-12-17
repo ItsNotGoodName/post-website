@@ -13,6 +13,12 @@ const {
     checkErrors
 } = require('../middleware/validator');
 
+router.get('/', async (req, res) => {
+    res.render('user', {
+        users: await userService.getAllUsers()
+    });
+})
+
 router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');

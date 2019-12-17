@@ -1,0 +1,22 @@
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>Username</th>
+            <th>Votes</th>
+            <th>Date Joined</th>
+        </tr>
+        <% for(var i=0; i<users.length; i++ ) { %>
+        <tr>
+            <td>
+                <%= users[i].username %>
+            </td>
+            <td>
+                <%= users[i].vote %>
+            </td>
+            <td>
+                <%= users[i].date.toLocaleDateString("en-US") %>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+</div>

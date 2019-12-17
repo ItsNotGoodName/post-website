@@ -5,6 +5,11 @@ class UserService {
     constructor(models) {
         this.models = models;
     }
+
+    async getAllUsers() {
+        return await this.models.User.find({}).sort('-vote').exec();
+    }
+
     async addUser(username, password) {
         const userExists = await this.models.User.findOne({
             username: username
@@ -24,8 +29,10 @@ class UserService {
         }
     }
 
-    async findUser(username){
-        return await this.models.User.findOne({username: username});
+    async findUser(username) {
+        return await this.models.User.findOne({
+            username: username
+        });
     }
 }
 
