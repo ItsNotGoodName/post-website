@@ -1,5 +1,8 @@
 <div class="container">
-    <h1>Hello <%= user.username %></h1>
-    <h5>Number of votes : <%= user.vote %></h3>
-    <h5>Date joined : <%= user.date.toLocaleDateString("en-US") %></h5>
+    <div class="jumbotron">
+        <h1>Hello <%= user.username %></h1>
+        <hr>
+        <h5>Number of votes : <%= user.vote %></h5>
+        <h5>Date joined : <%= user.date.toLocaleDateString("en-US") %></h5>
+    </div>
 </div>
