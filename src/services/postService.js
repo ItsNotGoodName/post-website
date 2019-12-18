@@ -13,18 +13,33 @@ class PostService {
         });
         await post.save();
     }
-    async getPosts() {
-        const posts = await this.models.Post.find({}).sort('-date').populate('postedBy','username').exec();
+    async getPosts(page) {
+        if (typeof page == undefined) {
+            const posts = await this.models.Post.find({}).sort('-date').populate('postedBy', 'username').exec();
+            return posts;
+        }
+
+        const posts = await this.models.Post.find({}).sort('-date').skip((page - 1) * 20).limit(20).populate('postedBy', 'username').exec();
         return posts;
     }
 
-    async votePost(post, user, value){
-        await post.updateOne({$inc: {vote: value}});
-        await this.models.User.findOneAndUpdate({_id : post.postedBy}, {$inc : {vote: value}});
-    } 
+    async votePost(post, user, value) {
+        await post.updateOne({
+            $inc: {
+                vote: value
+            }
+        });
+        await this.models.User.findOneAndUpdate({
+            _id: post.postedBy
+        }, {
+            $inc: {
+                vote: value
+            }
+        });
+    }
 
-    async getPostById(id){
-        if(!await mongoose.Types.ObjectId.isValid(id)){
+    async getPostById(id) {
+        if (!await mongoose.Types.ObjectId.isValid(id)) {
             return false;
         }
         return await this.models.Post.findById(id);

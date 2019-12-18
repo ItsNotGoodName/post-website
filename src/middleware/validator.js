@@ -40,6 +40,21 @@ const postValidator = [
     .isEmpty()
     .withMessage('Body is required')
 ]
+
+const pageValidator = [
+    check('page')
+    .isNumeric()
+    .custom((value) => {
+        if (!Number.isInteger(Number(value))) {
+            throw new Error('Not an integer');
+        }
+        if (value < 1) {
+            throw new Error('Not a valid page');
+        }
+        return true;
+    })
+]
+
 /*
     Checks validator errors and then redirects to a url while passing the errors to it.
 */
@@ -47,7 +62,9 @@ const checkErrors = (redirect) => {
     return (req, res, next) => {
         let errors = validationResult(req).array();
         if (errors.length > 0) {
-            req.flash('errors', errors.map((e)=> {return e.msg}))
+            req.flash('errors', errors.map((e) => {
+                return e.msg
+            }))
             res.redirect(redirect);
             return;
         }
@@ -60,4 +77,5 @@ module.exports = {
     registerValidator,
     postValidator,
     checkErrors,
+    pageValidator
 }
