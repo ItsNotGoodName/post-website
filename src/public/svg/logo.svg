@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="175mm"
+   height="150mm"
+   viewBox="0 0 174.99999 150"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="logo.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="361.89209"
+     inkscape:cy="265.28432"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     units="mm" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-146.99999)">
+    <path
+       sodipodi:type="star"
+       style="fill:#0000ff;stroke-width:0.26458332"
+       id="path14"
+       sodipodi:sides="5"
+       sodipodi:cx="72.949409"
+       sodipodi:cy="66.434525"
+       sodipodi:r1="56.433758"
+       sodipodi:r2="28.216879"
+       sodipodi:arg1="0.88977932"
+       sodipodi:arg2="1.5180978"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 108.47917,110.27976 74.435709,94.612231 42.22941,113.77426 46.61011,76.55547 18.433643,51.846851 55.184527,44.511906 69.976813,10.079111 88.309408,42.764656 125.62801,46.192636 100.20729,73.72836 Z"
+       inkscape:transform-center-x="-4.794311"
+       inkscape:transform-center-y="0.57336514"
+       transform="matrix(0.92060933,0.39048516,-0.39215936,0.92455644,8.6257883,110.85014)" />
+    <path
+       sodipodi:type="star"
+       style="fill:#00ff00;stroke-width:0.26458332"
+       id="path18"
+       sodipodi:sides="5"
+       sodipodi:cx="128.56313"
+       sodipodi:cy="53.546375"
+       sodipodi:r1="72.950386"
+       sodipodi:r2="36.475193"
+       sodipodi:arg1="-2.5032728"
+       sodipodi:arg2="-1.8749543"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 69.976816,10.079109 47.662354,8.666304 34.15962,-34.350053 6.48633,48.007631 43.22474,21.872972 -43.65358,21.004044 -7.44525,47.868293 -33.46573,-35.026417 -47.826166,7.71126 22.970623,-42.651561 z"
+       inkscape:transform-center-x="2.0378652"
+       inkscape:transform-center-y="4.6487566"
+       transform="matrix(0.92060921,0.39048511,-0.38372561,0.90467299,8.5407883,111.05055)" />
+    <path
+       sodipodi:type="star"
+       style="fill:#ff00ff;stroke-width:0.26458332"
+       id="path20"
+       sodipodi:sides="5"
+       sodipodi:cx="110.5197"
+       sodipodi:cy="138.39272"
+       sodipodi:r1="65.899147"
+       sodipodi:r2="32.949574"
+       sodipodi:arg1="-1.507662"
+       sodipodi:arg2="-0.87934342"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 114.67743,72.62486 16.8528,40.38613 42.82323,9.01258 -33.20169,28.50796 4.66163,43.51235 -37.37257,-22.76724 -39.942185,17.87953 10.104175,-42.57888 -29.347258,-32.4622 43.61729,-3.54796 z"
+       inkscape:transform-center-x="2.3264944"
+       inkscape:transform-center-y="-2.0910462"
+       transform="matrix(0.10599803,-0.94487156,0.87328749,0.043155,-72.69303,337.75213)" />
+  </g>
+</svg>
