@@ -2,6 +2,9 @@ const {
     validationResult,
     check
 } = require('express-validator');
+const {
+    postService
+} = require('../services');
 
 
 const loginValidator = [
@@ -44,12 +47,16 @@ const postValidator = [
 const pageValidator = [
     check('page')
     .isNumeric()
-    .custom((value) => {
+    .custom(async (value) => {
         if (!Number.isInteger(Number(value))) {
             throw new Error('Not an integer');
         }
         if (value < 1) {
             throw new Error('Not a valid page');
+        }
+        let maxpage = await postService.getNumPage()
+        if (value > maxpage) {
+            throw new Error('Not a valid page')
         }
         return true;
     })
