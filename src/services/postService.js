@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 class PostService {
     constructor(models) {
         this.models = models;
+        this.pageOffset = 20
     }
     async addPost(title, body, user) {
         const post = new this.models.Post({
@@ -13,13 +14,18 @@ class PostService {
         });
         await post.save();
     }
+    async getNumPage() {
+        let count = await this.models.Post.count({});
+        return Math.floor((count - 1) / this.pageOffset) + 1
+
+    }
     async getPosts(page) {
         if (typeof page == undefined) {
             const posts = await this.models.Post.find({}).sort('-date').populate('postedBy', 'username').exec();
             return posts;
         }
 
-        const posts = await this.models.Post.find({}).sort('-date').skip((page - 1) * 20).limit(20).populate('postedBy', 'username').exec();
+        const posts = await this.models.Post.find({}).sort('-date').skip((page - 1) * this.pageOffset).limit(this.pageOffset).populate('postedBy', 'username').exec();
         return posts;
     }
 

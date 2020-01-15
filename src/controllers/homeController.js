@@ -10,10 +10,12 @@ const {
 } = require('../services');
 
 router.get('/', async (req, res) => {
-    posts = await postService.getPosts();
+    let page = 1
+    let [posts, maxPage] = await Promise.all([postService.getPosts(page), postService.getNumPage(page)]);
     res.render('index', {
         posts,
-        page: 1
+        page,
+        maxPage
     });
 });
 
@@ -29,11 +31,12 @@ router.get('/page/:page',
 
         page = req.params.page
 
-        posts = await postService.getPosts(page);
+        let [posts, maxPage] = await Promise.all([postService.getPosts(page), postService.getNumPage(page)]);
 
         res.render('index', {
             posts,
-            page: Number(page)
+            page: Number(page),
+            maxPage
         });
     });
 
