@@ -29,19 +29,47 @@ class PostService {
         return posts;
     }
 
+    async _vote(value, post) {
+        return Promise.all([
+            post.update({
+                $inc: {
+                    vote: value
+                }
+            }),
+            this.models.User.findOneAndUpdate({
+                _id: post.postedBy
+            }, {
+                $inc: {
+                    vote: value
+                }
+            })
+        ])
+    }
+
     async votePost(post, user, value) {
-        await post.updateOne({
-            $inc: {
+        let vote = await this.models.Vote.findOne({
+            post: post._id,
+            user: user._id
+        })
+        if (!vote) {
+            vote = new this.models.Vote({
+                _id: new mongoose.Types.ObjectId(),
+                post: post._id,
+                user: user._id,
                 vote: value
+            })
+            await vote.save()
+        } else {
+            if (vote.vote == value) {
+                await vote.remove();
+                value = -value
+            } else {
+                vote.vote = value
+                await vote.save()
+                value += value
             }
-        });
-        await this.models.User.findOneAndUpdate({
-            _id: post.postedBy
-        }, {
-            $inc: {
-                vote: value
-            }
-        });
+        }
+        this._vote(value, post);
     }
 
     async getPostById(id) {
