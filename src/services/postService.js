@@ -21,11 +21,22 @@ class PostService {
     }
     async getPosts(page) {
         if (typeof page == undefined) {
-            const posts = await this.models.Post.find({}).sort('-date').populate('postedBy', 'username').exec();
+            const posts = await this.models.Post
+                .find({})
+                .sort('-date')
+                .populate('postedBy', 'username')
+                .exec();
             return posts;
         }
 
-        const posts = await this.models.Post.find({}).sort('-date').skip((page - 1) * this.pageOffset).limit(this.pageOffset).populate('postedBy', 'username').exec();
+        const posts = await this.models.Post
+            .find({})
+            .sort('-date')
+            .skip((page - 1) * this.pageOffset)
+            .limit(this.pageOffset)
+            .populate('postedBy', 'username')
+            .slice('voters', 0)
+            .exec();
         return posts;
     }
 
@@ -47,28 +58,57 @@ class PostService {
     }
 
     async votePost(post, user, value) {
-        let vote = await this.models.Vote.findOne({
-            post: post._id,
-            user: user._id
+        let p = await this.models.Post.findOne({
+            _id: post._id
+        }, {
+            voters: {
+                $elemMatch: {
+                    user
+                }
+            }
         })
-        if (!vote) {
-            vote = new this.models.Vote({
-                _id: new mongoose.Types.ObjectId(),
-                post: post._id,
-                user: user._id,
-                vote: value
-            })
-            await vote.save()
+        if (p.voters.length == 0) {
+            // new vote
+            await this.models.Post.update({
+                _id: post._id
+            }, {
+                $push: {
+                    voters: {
+                        user,
+                        value
+                    }
+                }
+            });
         } else {
-            if (vote.vote == value) {
-                await vote.remove();
+            if (value == p.voters[0].value) {
+                // unvote
                 value = -value
+                await this.models.Post.update({
+                    _id: post._id
+                }, {
+                    $pull: {
+                        voters: {
+                            _id: p.voters[0]._id
+                        }
+                    }
+                });
             } else {
-                vote.vote = value
-                await vote.save()
+                // change vote
+                p.voters[0].value = value;
+                await this.models.Post.update({
+                    _id: post._id
+                }, {
+                    $set: {
+                        voters: {
+                            user,
+                            value
+                        }
+                    }
+                });
                 value += value
             }
         }
+
         this._vote(value, post);
     }
 
