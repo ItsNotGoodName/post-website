@@ -19,19 +19,36 @@ class PostService {
         return Math.floor((count - 1) / this.pageOffset) + 1
 
     }
-    async getPosts(page) {
+    async getPosts(page, user) {
         if (typeof page == undefined) {
             page = 1
         }
+        if (typeof user == undefined) {
+            return await this.models.Post
+                .find({})
+                .sort('-date')
+                .skip((page - 1) * this.pageOffset)
+                .limit(this.pageOffset)
+                .populate('postedBy', 'username')
+                .slice('voters', 0)
+                .exec();
+        }
 
         const posts = await this.models.Post
-            .find({})
+            .find({}, {
+                voters: {
+                    $elemMatch: {
+                        user
+                    }
+                }
+            })
             .sort('-date')
             .skip((page - 1) * this.pageOffset)
             .limit(this.pageOffset)
             .populate('postedBy', 'username')
-            .slice('voters', 0)
+            .slice('voters', 1)
             .exec();
+        console.log(posts)
         return posts;
     }
 

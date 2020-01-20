@@ -11,7 +11,7 @@ const {
 
 router.get('/', async (req, res) => {
     let page = 1
-    let [posts, maxPage] = await Promise.all([postService.getPosts(page), postService.getNumPage(page)]);
+    let [posts, maxPage] = await Promise.all([postService.getPosts(page, req.user), postService.getNumPage(page)]);
     res.render('index', {
         posts,
         page,
@@ -31,7 +31,7 @@ router.get('/page/:page',
 
         page = req.params.page
 
-        let [posts, maxPage] = await Promise.all([postService.getPosts(page), postService.getNumPage(page)]);
+        let [posts, maxPage] = await Promise.all([postService.getPosts(page, req.user), postService.getNumPage(page)]);
 
         res.render('index', {
             posts,
