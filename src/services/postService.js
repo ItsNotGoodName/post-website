@@ -19,11 +19,11 @@ class PostService {
         return Math.floor((count - 1) / this.pageOffset) + 1
 
     }
-    async getPosts(page, user) {
-        if (typeof page == undefined) {
+    async getPosts(page = undefined, user = undefined) {
+        if (typeof page == "undefined") {
             page = 1
         }
-        if (typeof user == undefined) {
+        if (typeof user === "undefined") {
             return await this.models.Post
                 .find({})
                 .sort('-date')
@@ -35,7 +35,13 @@ class PostService {
         }
 
         const posts = await this.models.Post
-            .find({}, {
+            .find({}, { // IDK I need help
+                title: 1,
+                vote: 1,
+                body: 1,
+                username: 1,
+                date: 1,
+                postedBy: 1,
                 voters: {
                     $elemMatch: {
                         user
@@ -46,7 +52,6 @@ class PostService {
             .skip((page - 1) * this.pageOffset)
             .limit(this.pageOffset)
             .populate('postedBy', 'username')
-            .slice('voters', 1)
             .exec();
         console.log(posts)
         return posts;
@@ -96,7 +101,7 @@ class PostService {
                 // unvote
                 value = -value
                 await this.models.Post.update({
-                    _id: post._id
+                    _id: p._id
                 }, {
                     $pull: {
                         voters: {
@@ -108,7 +113,7 @@ class PostService {
                 // change vote
                 p.voters[0].value = value;
                 await this.models.Post.update({
-                    _id: post._id
+                    _id: p._id
                 }, {
                     $set: {
                         voters: {
@@ -121,14 +126,15 @@ class PostService {
             }
         }
 
-        this._vote(value, post);
+        this._vote(value, p);
     }
 
     async getPostById(id) {
         if (!await mongoose.Types.ObjectId.isValid(id)) {
             return false;
         }
-        return await this.models.Post.findById(id);
+        return await this.models.Post.findById(id)
+            .slice('voters', 0);
     }
 }
 
