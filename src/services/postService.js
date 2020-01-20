@@ -21,12 +21,7 @@ class PostService {
     }
     async getPosts(page) {
         if (typeof page == undefined) {
-            const posts = await this.models.Post
-                .find({})
-                .sort('-date')
-                .populate('postedBy', 'username')
-                .exec();
-            return posts;
+            page = 1
         }
 
         const posts = await this.models.Post
