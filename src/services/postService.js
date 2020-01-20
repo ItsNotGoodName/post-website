@@ -125,8 +125,7 @@ class PostService {
                 value += value
             }
         }
-
-        this._vote(value, p);
+        this._vote(value, post);
     }
 
     async getPostById(id) {

@@ -1,5 +1,4 @@
 const express = require('express');
-const fs = require('fs')
 const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -10,7 +9,7 @@ const flash = require('express-flash');
 const MongoStore = require('connect-mongo')(session);
 const mongoConnection = require('./config/db').connection
 const expressLayouts = require('express-ejs-layouts');
-require('./config/passport')();express-flash
+require('./config/passport')();
 
 const app = express();
 
@@ -27,25 +26,27 @@ app.use(session({
     secret: process.env.SESSION_SECRET || "secret",
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore( { mongooseConnection: mongoConnection })
+    store: new MongoStore({
+        mongooseConnection: mongoConnection
+    })
 }));
 app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
+// app.use(cors());
 app.use(cookieParser());
 app.use(express.urlencoded({
     extended: false
 }));
 app.use(require('./middleware/copyUser'));
 
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
     // Redirect to HTTPS if in production
     // app.use(require('./middleware/requireHTTPS'));
     // Log to access.log
     // app.use(morgan('combined', {stream: fs.createWriteStream(path.join(__dirname, '../access.log'), { flags: 'a' })}));
-}else{
+} else {
     app.use(morgan('dev'));
 }
 
