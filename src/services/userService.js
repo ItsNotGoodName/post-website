@@ -10,6 +10,12 @@ class UserService {
         return await this.models.User.find({}).sort('-vote').exec();
     }
 
+    async deleteUserByUsername(username) {
+        return await this.models.User.findOneAndDelete({
+            username
+        });
+    }
+
     async addUser(username, password) {
         const userExists = await this.models.User.findOne({
             username: username
@@ -20,12 +26,12 @@ class UserService {
         } else {
             const salt = await bcrypt.genSalt(10)
             const hash = await bcrypt.hash(password, salt);
-            await this.models.User({
+            const user = await this.models.User({
                 _id: new mongoose.Types.ObjectId(),
                 username: username,
                 password: hash
             }).save();
-            return true;
+            return user;
         }
     }
 
