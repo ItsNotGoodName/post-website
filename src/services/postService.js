@@ -13,16 +13,14 @@ class PostService {
             postedBy: user._id
         });
         await post.save();
+        return post;
     }
     async getNumPage() {
         let count = await this.models.Post.count({});
         return Math.floor((count - 1) / this.pageOffset) + 1
 
     }
-    async getPosts(page = undefined, user = undefined) {
-        if (typeof page == "undefined") {
-            page = 1
-        }
+    async getPosts(page = 1, user = undefined) {
         if (typeof user === "undefined") {
             return await this.models.Post
                 .find({})
@@ -53,7 +51,6 @@ class PostService {
             .limit(this.pageOffset)
             .populate('postedBy', 'username')
             .exec();
-        console.log(posts)
         return posts;
     }
 
