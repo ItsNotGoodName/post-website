@@ -1,5 +1,3 @@
-'use strict';
-
 before(() => {
     return new Promise((resolve, reject) => {
         require('dotenv').config()
