@@ -2,52 +2,43 @@ const {
     userService,
     postService
 } = require('../src/services');
+const {
+    expect
+} = require('chai');
 
 
 describe('postService', () => {
-    const assert = require('chai').assert
     const username = 'TestUser';
     const password = '123';
     let user;
     let post;
 
-    before(() => {
-        return new Promise(async (resolve) => {
-            user = await userService.findUser(username);
-            if (user === null) {
-                user = await userService.addUser(username, password);
-                assert.notEqual(user, false)
-            }
-            resolve();
-        });
+    before(async () => {
+        user = await userService.findUser(username);
+        if (user === null) {
+            user = await userService.addUser(username, password);
+            expect(user).to.not.equal(false)
+        }
     });
 
-    it('#addPost', () => {
-        return new Promise(async (resolve) => {
-            post = await postService.addPost('Test', 'Test', user);
-            assert.equal(post.title, 'Test');
-            resolve();
-        });
+    it('#addPost', async () => {
+        post = await postService.addPost('Test', 'Test', user);
+        expect(post).to.have.property('title', 'Test');
     });
-    it('#getPostById', () => {
-        return new Promise(async (resolve) => {
-            const foundPost = await postService.getPostById(post.id);
-            assert.equal(foundPost.title, post.title);
-            assert.equal(foundPost.body, post.body);
-            assert.equal(foundPost.vote, post.vote);
-            resolve();
-        });
+    it('#getPostById', async () => {
+        const foundPost = await postService.getPostById(post.id);
+        expect(foundPost).to.have.property('title')
     });
     describe('#votePost', () => {
-        it('upvote-unvote post', () => {
-            return new Promise(async (resolve) => {
-                resolve()
-            });
+        beforeEach(async () => {
+            post = await postService.getPostById(post.id);
+        });
+
+        it('upvote-unvote', async () => {
+            await postService.votePost(post, 1);
+            expect(await postService.getPostById(post.id)).to.have.property('vote', 1);
         })
-        it('upvote-downvote post', () => {
-            return new Promise(async (resolve) => {
-                resolve()
-            });
-        })
+
+        it('upvote-downvote', async () => {})
     })
 })

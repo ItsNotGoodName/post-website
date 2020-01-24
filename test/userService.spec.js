@@ -1,4 +1,6 @@
-const assert = require('chai').assert
+const {
+    expect
+} = require('chai')
 const {
     userService
 } = require('../src/services');
@@ -7,34 +9,26 @@ describe('userService', () => {
     const username = "TestUser";
     const password = '123';
 
-    before(() => {
-        return new Promise(async (resolve) => {
-            await userService.deleteUserByUsername(username);
-            resolve();
-        });
+    before(async () => {
+        await userService.deleteUserByUsername(username);
     });
 
-    it('Register User', () => {
-        return new Promise(async (resolve) => {
-            const newUser = await userService.addUser(username, password);
-            assert.equal(newUser.username, username);
-            resolve();
-        });
+    it('Register User', async () => {
+        const newUser = await userService.addUser(username, password);
+        expect(newUser).to.have.property('username').that.equal(username);
     });
 
-    it('Find User', () => {
-        return new Promise(async (resolve) => {
-            const user = await userService.findUser(username)
-            assert.equal(user.username, username);
-            resolve();
-        });
+    it('Find User', async () => {
+        const user = await userService.findUser(username)
+        expect(user).to.have.property('username').that.equal(username);
     })
 
-    it('Delete User', () => {
-        return new Promise(async (resolve) => {
-            const delUser = await userService.deleteUserByUsername(username)
-            assert.equal(delUser.username, username);
-            resolve();
-        });
+    it('Delete User', async () => {
+        const delUser = await userService.deleteUserByUsername(username)
+        expect(delUser).to.have.property('username').that.equal(username)
+
+        const goneUser = await userService.findUser(username)
+        expect(goneUser).to.be.null
+
     })
 })
