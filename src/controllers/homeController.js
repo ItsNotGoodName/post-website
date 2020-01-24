@@ -9,36 +9,35 @@ const {
     postService
 } = require('../services');
 
-router.get('/', async (req, res) => {
-    let page = 1
-    let [posts, maxPage] = await Promise.all([postService.getPosts(page, req.user), postService.getNumPage(page)]);
+const homeRender = async (req, res) => {
+    let [posts, maxPage] = await Promise.all([postService.getPosts(res.locals.page, req.user), postService.getNumPage(res.locals.page)]);
     res.render('index', {
         posts,
-        page,
+        page: Number(res.locals.page),
         maxPage
     });
-});
+}
+
+router.get('/', async (req, res, next) => {
+    res.locals.page = 1;
+    next();
+}, homeRender);
 
 router.get('/page/:page',
     pageValidator,
-    async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(422).json({
-                errors: errors.array()
-            });
-        }
+    async (req, res, next) => {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    errors: errors.array()
+                });
+            }
 
-        page = req.params.page
-
-        let [posts, maxPage] = await Promise.all([postService.getPosts(page, req.user), postService.getNumPage(page)]);
-
-        res.render('index', {
-            posts,
-            page: Number(page),
-            maxPage
-        });
-    });
+            res.locals.page = req.params.page;
+            next();
+        },
+        homeRender
+);
 
 router.get('/test', async (req, res) => {
     res.render('test');
