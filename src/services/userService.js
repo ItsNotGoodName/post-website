@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const {
+    postService
+} = require('.')
 
 class UserService {
     constructor(models) {
@@ -11,9 +14,11 @@ class UserService {
     }
 
     async deleteUserByUsername(username) {
-        return await this.models.User.findOneAndDelete({
+        const user = await this.models.User.findOne({
             username
         });
+        await postService.deletePostsFromUser(user);
+        return await user.deleteOne();
     }
 
     async addUser(username, password) {

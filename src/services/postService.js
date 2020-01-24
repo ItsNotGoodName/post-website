@@ -20,6 +20,11 @@ class PostService {
         return Math.floor((count - 1) / this.pageOffset) + 1
 
     }
+    async deletePostsFromUser(user) {
+        return await this.models.Post.deleteMany({
+            postedBy: user.id
+        });
+    }
     async getPosts(page = 1, user = undefined) {
         if (typeof user === "undefined") {
             return await this.models.Post
