@@ -6,7 +6,7 @@ const {
 } = require('../src/services');
 
 describe('userService', () => {
-    const username = "TestUser";
+    const username = "User-userService";
     const password = '123';
 
     before(async () => {

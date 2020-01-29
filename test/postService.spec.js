@@ -8,37 +8,93 @@ const {
 
 
 describe('postService', () => {
-    const username = 'TestUser';
+    const username = 'User-postService';
     const password = '123';
     let user;
     let post;
 
     before(async () => {
-        user = await userService.findUser(username);
-        if (user === null) {
-            user = await userService.addUser(username, password);
-            expect(user).to.not.equal(false)
-        }
+        await userService.deleteUserByUsername(username);
+        user = await userService.addUser(username, password);
+        expect(user).to.not.equal(false)
     });
 
-    it('#addPost', async () => {
-        post = await postService.addPost('Test', 'Test', user);
-        expect(post).to.have.property('title', 'Test');
+    after(async () => {
+        await userService.deleteUserByUsername(user.username);
+        const delUser = await userService.findUser(user.username);
+        expect(delUser).to.be.null;
     });
-    it('#getPostById', async () => {
+
+    it('#addPost()', async () => {
+        const title = 'Title';
+        const body = 'Body';
+        post = await postService.addPost(title, body, user);
+        expect(post).to.have.property('title', title);
+        expect(post).to.have.property('body', body);
+        expect(post).to.have.property('vote', 0);
+        expect(post).to.have.property('date');
+    });
+    it('#getPostById()', async () => {
         const foundPost = await postService.getPostById(post.id);
         expect(foundPost).to.have.property('title')
+        expect(foundPost).to.have.property('title')
     });
-    describe('#votePost', () => {
-        beforeEach(async () => {
-            post = await postService.getPostById(post.id);
+    describe('#votePost()', () => {
+        const refreshPost = async () => {
+            post = await postService.getPostById(post.id, user);
+        };
+        before(async () => {
+            await refreshPost();
+            expect(post).to.have.property('vote', 0);
         });
 
-        it('upvote-unvote', async () => {
-            await postService.votePost(post, 1);
-            expect(await postService.getPostById(post.id)).to.have.property('vote', 1);
-        })
+        beforeEach(async () => {
+            await refreshPost();
+        });
 
-        it('upvote-downvote', async () => {})
+        it('upvote-upvote', async () => {
+            await postService.votePost(post, user, 1);
+            await refreshPost();
+            expect(post).to.have.property('vote', 1);
+
+            await postService.votePost(post, user, 1);
+            await refreshPost();
+            expect(post).to.have.property('vote', 0);
+        })
+        it('downvote-downvote', async () => {
+            await postService.votePost(post, user, -1);
+            await refreshPost();
+            expect(post).to.have.property('vote', -1);
+
+            await postService.votePost(post, user, -1);
+            await refreshPost();
+            expect(post).to.have.property('vote', 0);
+        })
+        it('upvote-downvote-downvote', async () => {
+            await postService.votePost(post, user, 1);
+            await refreshPost();
+            expect(post).to.have.property('vote', 1);
+
+            await postService.votePost(post, user, -1);
+            await refreshPost();
+            expect(post).to.have.property('vote', -1);
+
+            await postService.votePost(post, user, -1);
+            await refreshPost();
+            expect(post).to.have.property('vote', 0);
+        })
+        it('downvote-upvote-upvote', async () => {
+            await postService.votePost(post, user, -1);
+            await refreshPost();
+            expect(post).to.have.property('vote', -1);
+
+            await postService.votePost(post, user, 1);
+            await refreshPost();
+            expect(post).to.have.property('vote', 1);
+
+            await postService.votePost(post, user, 1);
+            await refreshPost();
+            expect(post).to.have.property('vote', 0);
+        })
     })
 })

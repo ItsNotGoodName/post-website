@@ -1,5 +1,11 @@
 const http = require('http');
-require('dotenv').config()
+if (process.env.NODE_ENV === 'production') {
+	require('dotenv').config()
+} else {
+	require('dotenv').config({
+		path: path.resolve(process.cwd(), 'test.env')
+	})
+}
 const db = require('./src/config/db').connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));

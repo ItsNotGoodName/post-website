@@ -61,7 +61,7 @@ class PostService {
 
     async _vote(value, post) {
         return Promise.all([
-            post.update({
+            post.updateOne({
                 $inc: {
                     vote: value
                 }
@@ -88,7 +88,7 @@ class PostService {
         })
         if (p.voters.length == 0) {
             // new vote
-            await this.models.Post.update({
+            await this.models.Post.updateOne({
                 _id: post._id
             }, {
                 $push: {
@@ -102,7 +102,7 @@ class PostService {
             if (value == p.voters[0].value) {
                 // unvote
                 value = -value
-                await this.models.Post.update({
+                await this.models.Post.updateOne({
                     _id: p._id
                 }, {
                     $pull: {
@@ -114,7 +114,7 @@ class PostService {
             } else {
                 // change vote
                 p.voters[0].value = value;
-                await this.models.Post.update({
+                await this.models.Post.updateOne({
                     _id: p._id
                 }, {
                     $set: {
@@ -127,15 +127,33 @@ class PostService {
                 value += value
             }
         }
-        this._vote(value, post);
+        await this._vote(value, post);
     }
 
-    async getPostById(id) {
+    async getPostById(id, user = undefined) {
         if (!await mongoose.Types.ObjectId.isValid(id)) {
             return false;
         }
-        return await this.models.Post.findById(id)
-            .slice('voters', 0);
+        if (typeof user === 'undefined') {
+            return await this.models.Post.findById(id)
+                .slice('voters', 0);
+        }
+        return await this.models.Post
+            .findById(id, { // IDK I need help
+                title: 1,
+                vote: 1,
+                body: 1,
+                username: 1,
+                date: 1,
+                postedBy: 1,
+                voters: {
+                    $elemMatch: {
+                        user
+                    }
+                }
+            })
+            .populate('postedBy', 'username')
+            .exec();
     }
 }
 

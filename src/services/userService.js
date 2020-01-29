@@ -17,6 +17,8 @@ class UserService {
         const user = await this.models.User.findOne({
             username
         });
+        if (user === null)
+            return false;
         await postService.deletePostsFromUser(user);
         return await user.deleteOne();
     }

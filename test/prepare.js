@@ -1,6 +1,9 @@
 before(() => {
+    const path = require('path')
     return new Promise((resolve, reject) => {
-        require('dotenv').config()
+        require('dotenv').config({
+            path: path.resolve(process.cwd(), 'test.env')
+        });
         const db = require('../src/config/db').connection;
         db.once('open', () => {
             resolve();
