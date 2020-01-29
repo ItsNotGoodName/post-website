@@ -86,9 +86,10 @@ class PostService {
                 }
             }
         })
+        let postPromise = undefined;
         if (p.voters.length == 0) {
             // new vote
-            await this.models.Post.updateOne({
+            postPromise = this.models.Post.updateOne({
                 _id: post._id
             }, {
                 $push: {
@@ -102,7 +103,7 @@ class PostService {
             if (value == p.voters[0].value) {
                 // unvote
                 value = -value
-                await this.models.Post.updateOne({
+                postPromise = await this.models.Post.updateOne({
                     _id: p._id
                 }, {
                     $pull: {
@@ -114,7 +115,7 @@ class PostService {
             } else {
                 // change vote
                 p.voters[0].value = value;
-                await this.models.Post.updateOne({
+                postPromise = await this.models.Post.updateOne({
                     _id: p._id
                 }, {
                     $set: {
@@ -127,7 +128,7 @@ class PostService {
                 value += value
             }
         }
-        await this._vote(value, post);
+        await Promise.all([postPromise, this._vote(value, post)]);
     }
 
     async getPostById(id, user = undefined) {
