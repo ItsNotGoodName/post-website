@@ -16,4 +16,4 @@ services:
   mongodb:
     ports:
       - 27017:27017
-    image: mongo
+    image: mongo:4.2.2-bionic
