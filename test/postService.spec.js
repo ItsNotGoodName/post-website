@@ -43,6 +43,13 @@ describe('postService', () => {
         const refreshPost = async () => {
             post = await postService.getPostById(post.id, user);
         };
+
+        const testVote = async (value, expectValue) => {
+            await postService.votePost(post, user, value);
+            await refreshPost();
+            expect(post).to.have.property('vote', expectValue);
+        }
+
         before(async () => {
             await refreshPost();
             expect(post).to.have.property('vote', 0);
@@ -53,48 +60,22 @@ describe('postService', () => {
         });
 
         it('upvote-upvote', async () => {
-            await postService.votePost(post, user, 1);
-            await refreshPost();
-            expect(post).to.have.property('vote', 1);
-
-            await postService.votePost(post, user, 1);
-            await refreshPost();
-            expect(post).to.have.property('vote', 0);
+            await testVote(1, 1);
+            await testVote(1, 0);
         })
         it('downvote-downvote', async () => {
-            await postService.votePost(post, user, -1);
-            await refreshPost();
-            expect(post).to.have.property('vote', -1);
-
-            await postService.votePost(post, user, -1);
-            await refreshPost();
-            expect(post).to.have.property('vote', 0);
+            await testVote(-1, -1);
+            await testVote(-1, 0);
         })
         it('upvote-downvote-downvote', async () => {
-            await postService.votePost(post, user, 1);
-            await refreshPost();
-            expect(post).to.have.property('vote', 1);
-
-            await postService.votePost(post, user, -1);
-            await refreshPost();
-            expect(post).to.have.property('vote', -1);
-
-            await postService.votePost(post, user, -1);
-            await refreshPost();
-            expect(post).to.have.property('vote', 0);
+            await testVote(1, 1);
+            await testVote(-1, -1);
+            await testVote(-1, 0);
         })
         it('downvote-upvote-upvote', async () => {
-            await postService.votePost(post, user, -1);
-            await refreshPost();
-            expect(post).to.have.property('vote', -1);
-
-            await postService.votePost(post, user, 1);
-            await refreshPost();
-            expect(post).to.have.property('vote', 1);
-
-            await postService.votePost(post, user, 1);
-            await refreshPost();
-            expect(post).to.have.property('vote', 0);
+            await testVote(-1, -1);
+            await testVote(1, 1);
+            await testVote(1, 0);
         })
     })
 })
