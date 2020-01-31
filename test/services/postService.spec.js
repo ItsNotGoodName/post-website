@@ -1,7 +1,7 @@
 const {
     userService,
     postService
-} = require('../src/services');
+} = require('../../src/services');
 const {
     expect
 } = require('chai');

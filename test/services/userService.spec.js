@@ -3,7 +3,7 @@ const {
 } = require('chai')
 const {
     userService
-} = require('../src/services');
+} = require('../../src/services');
 
 describe('userService', () => {
     const username = "User-userService";
