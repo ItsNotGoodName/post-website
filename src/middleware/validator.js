@@ -44,6 +44,13 @@ const postValidator = [
     .withMessage('Body is required')
 ]
 
+const postDeleteValidator = [
+    check('id')
+    .not()
+    .isEmpty()
+    .withMessage('id not supplied')
+]
+
 const pageValidator = [
     check('page')
     .isNumeric()
@@ -84,5 +91,6 @@ module.exports = {
     registerValidator,
     postValidator,
     checkErrors,
-    pageValidator
+    pageValidator,
+    postDeleteValidator
 }

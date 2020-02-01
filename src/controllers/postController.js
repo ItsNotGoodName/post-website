@@ -8,6 +8,7 @@ const {
 
 const {
     postValidator,
+    postDeleteValidator,
     checkErrors
 } = require('../middleware/validator');
 router.use(forwardAuthenticated);
@@ -46,6 +47,27 @@ router.post('/vote', async (req, res) => {
     }
 
     res.redirect('/' + "#" + id);
+});
+
+router.post('/delete', postDeleteValidator, checkErrors('/'), async (req, res) => {
+    const {
+        id
+    } = req.body;
+
+    const post = await postService.getPostById(id);
+
+    if (!post) {
+        res.redirect(req.headers.referer);
+        return;
+    }
+
+    if (!post.postedBy.equals(req.user._id)) {
+        res.redirect(req.headers.referer);
+        return;
+    }
+
+    await postService.deletePost(post);
+    res.redirect(req.headers.referer)
 });
 
 module.exports = router;

@@ -60,6 +60,17 @@
             </small>
 
           </div>
+          <div class="col">
+            <% if (typeof user != 'undefined' && posts[i].postedBy._id.equals(user._id)) { %>
+
+            <form action="/post/delete" method="POST">
+              <input hidden name="id" value="<%= posts[i]._id %>"></input>
+              <button class="btn btn-light" name="vote" value="downvote" type="submit">
+                <img width="20px" height="30px" src="/svg/X.svg">
+              </button>
+              <% }  %>
+            </form>
+          </div>
         </div>
       </div>
     </div>
