@@ -8,14 +8,16 @@ const {
 
 
 describe('postService', () => {
-    const username = 'User-postService';
-    const password = '123';
+    const userUsername = 'User-postService';
+    const userPassword = '123';
+    const postTitle = 'Title';
+    const postBody = 'Body';
     let user;
     let post;
 
     before(async () => {
-        await userService.deleteUserByUsername(username);
-        user = await userService.addUser(username, password);
+        await userService.deleteUserByUsername(userUsername);
+        user = await userService.addUser(userUsername, userPassword);
         expect(user).to.not.equal(false)
     });
 
@@ -25,20 +27,26 @@ describe('postService', () => {
         expect(delUser).to.be.null;
     });
 
-    it('#addPost()', async () => {
-        const title = 'Title';
-        const body = 'Body';
-        post = await postService.addPost(title, body, user);
-        expect(post).to.have.property('title', title);
-        expect(post).to.have.property('body', body);
-        expect(post).to.have.property('vote', 0);
-        expect(post).to.have.property('date');
+    describe('#addPost()', async () => {
+        it('Should add post', async () => {
+            post = await postService.addPost(postTitle, postBody, user);
+            expect(post).to.have.property('title', postTitle);
+            expect(post).to.have.property('body', postBody);
+            expect(post).to.have.property('vote', 0);
+            expect(post).to.have.property('date');
+        });
     });
-    it('#getPostById()', async () => {
-        const foundPost = await postService.getPostById(post.id);
-        expect(foundPost).to.have.property('title')
-        expect(foundPost).to.have.property('title')
+
+    describe('#getPostById()', async () => {
+        it('Should retrieve post', async () => {
+            const foundPost = await postService.getPostById(post.id);
+            expect(foundPost).to.have.property('title', postTitle);
+            expect(foundPost).to.have.property('body', postBody);
+            expect(foundPost).to.have.property('vote', 0);
+            expect(foundPost).to.have.property('date').that.deep.equal(post.date);
+        });
     });
+
     describe('#votePost()', () => {
         const refreshPost = async () => {
             post = await postService.getPostById(post.id, user);
@@ -48,6 +56,9 @@ describe('postService', () => {
             await postService.votePost(post, user, value);
             await refreshPost();
             expect(post).to.have.property('vote', expectValue);
+
+            const updatedUser = await userService.findUser(userUsername);
+            expect(updatedUser).to.have.property('vote', expectValue);
         }
 
         before(async () => {
@@ -78,4 +89,17 @@ describe('postService', () => {
             await testVote(1, 0);
         })
     })
+
+    describe('#deletePost()', async () => {
+        it('Should delete post', async () => {
+            const deletePostResult = await postService.deletePost(post);
+            expect(deletePostResult).to.have.property('ok', 1);
+            expect(deletePostResult).to.have.property('deletedCount', 1);
+        });
+
+        it('Should not be possible to get post by getPostById', async () => {
+            const getPostResult = await postService.getPostById(post.id);
+            expect(getPostResult).to.equal(null);
+        });
+    });
 })
