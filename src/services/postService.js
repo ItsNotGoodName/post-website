@@ -26,7 +26,9 @@ class PostService {
         });
     }
     async deletePost(post) {
-        return await this.models.Post.deleteOne(post);
+        return await this.models.Post.deleteOne({
+            _id: post._id
+        });
     }
 
     async getPosts(page = 1, user = undefined) {
