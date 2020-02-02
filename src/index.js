@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
-const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
@@ -41,12 +40,7 @@ app.use(express.urlencoded({
 }));
 app.use(require('./middleware/copyUser'));
 
-if (process.env.NODE_ENV === 'production') {
-    // Redirect to HTTPS if in production
-    // app.use(require('./middleware/requireHTTPS'));
-    // Log to access.log
-    // app.use(morgan('combined', {stream: fs.createWriteStream(path.join(__dirname, '../access.log'), { flags: 'a' })}));
-} else {
+if (process.env.NODE_ENV === 'production') {} else {
     app.use(morgan('dev'));
 }
 
