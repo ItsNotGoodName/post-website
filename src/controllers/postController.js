@@ -28,9 +28,9 @@ router.post('/', postValidator, checkErrors('/post'), async (req, res) => {
 });
 
 router.post('/vote', async (req, res) => {
-    id = req.body.id;
-    vote = req.body.vote;
-    user = req.user;
+    let id = req.body.id;
+    let vote = req.body.vote;
+    let user = req.user;
 
     post = await postService.getPostById(id);
 

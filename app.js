@@ -2,6 +2,11 @@ const http = require('http');
 const path = require('path');
 if (process.env.NODE_ENV === 'production') {
 	require('dotenv').config()
+} else if (process.env.NODE_ENV === 'development') {
+	require('dotenv').config({
+		path: path.resolve(process.cwd(), 'dev.env')
+	})
+
 } else {
 	require('dotenv').config({
 		path: path.resolve(process.cwd(), 'test.env')

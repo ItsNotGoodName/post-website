@@ -28,6 +28,12 @@ router.get('/profile', forwardAuthenticated, (req, res) => {
     res.render('profile');
 });
 
+router.post('/delete', forwardAuthenticated, (req, res) => {
+    let user = req.user;
+    userService.deleteUserByUsername(user.username);
+    res.send("You are dead");
+});
+
 router.use(blockAuthenticated);
 
 router.get('/register', (req, res) => {
@@ -61,5 +67,6 @@ router.post('/login',
         successRedirect: "/",
         failureRedirect: "/user/login"
     }));
+
 
 module.exports = router;
